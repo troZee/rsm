@@ -11,38 +11,24 @@ public class Job {
         this.processingTime = processingTime;
         this.weight = weight;
         this.dueDate = dueDate;
-        this.tardiness = Math.max(0,processingTime-dueDate);
     }
 
-    public Integer getProcessingTime() {
+    Integer getProcessingTime() {
         return processingTime;
     }
 
-    public void setProcessingTime(Integer processingTime) {
-        this.processingTime = processingTime;
-    }
 
-    public Integer getWeight() {
+    Integer getWeight() {
         return weight;
     }
 
-    public void setWeight(Integer weight) {
-        this.weight = weight;
-    }
-
-    public Integer getDueDate() {
+    Integer getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(Integer dueDate) {
-        this.dueDate = dueDate;
-    }
-
-    public Integer getTardiness() {
+    Integer getTardiness() {
         return tardiness;
     }
 
-    public void setTardiness(Integer tardiness) {
-        this.tardiness = tardiness;
-    }
+    void setTardiness(Integer tardiness) { this.tardiness = tardiness; }
 }

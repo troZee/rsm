@@ -24,8 +24,8 @@ public class Main {
             fileName = "wt40.txt";
             jobs = reader.readFrom(System.getProperty("user.dir")+ "/" + fileName, 40);
             GeneticAlgoritm algoritm = new GeneticAlgoritm(jobs);
-            algoritm.compute(40);
-
+            algoritm.compute(100000);
+            algoritm.printSolution();
 
         } catch (IOException e) {
             e.printStackTrace();
