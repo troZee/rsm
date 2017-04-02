@@ -17,7 +17,7 @@ import java.util.List;
 public class GeneticAlgoritm {
 
     private List<Job> jobs;
-    private int bestTardinessSum = Integer.MAX_VALUE;
+    private int bestTardinessSum = -Integer.MAX_VALUE;
     private Chromoson bestChromoson;
 
     GeneticAlgoritm(List<Job> jobs) {
@@ -45,20 +45,21 @@ public class GeneticAlgoritm {
     }
 
     void checkIfPopulationHasTheBestOne(List<Chromoson> chromosons) {
+
         for (Chromoson chromo : chromosons) {
-            if (bestTardinessSum == -1) {
-                bestTardinessSum = chromo.getTardinessSum();
-                bestChromoson = chromo;
-                continue;
-            }
-            if (chromo.getTardinessSum() < bestTardinessSum) {
-                bestTardinessSum = chromo.getTardinessSum();
+            TotalTardiness totalTardiness = new TotalTardiness(chromo);
+            if (totalTardiness.getSolution() < bestTardinessSum || bestTardinessSum == -Integer.MAX_VALUE) {
+                bestTardinessSum = totalTardiness.getSolution();
                 bestChromoson = chromo;
             }
         }
     }
 
     void printSolution() {
-        System.out.print("Best tardiness sum is " + bestTardinessSum);
+        System.out.println("Best tardiness sum is " + bestTardinessSum);
+        System.out.println("Tasks order :");
+        bestChromoson.getJobs().forEach( item ->
+            System.out.print(item.getNumber() + " -> " )
+        );
     }
 }

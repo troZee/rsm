@@ -24,7 +24,7 @@ public class Chromoson {
 
     boolean updateTardinesFor(List<Job> jobs) {
         this.jobs = countTardinessSumForEachTask(jobs);
-        this.tardinessSum = countTardinessSum(jobs);
+        this.tardinessSum = new TotalTardiness(this).getSolution();
         return checkIfPermutationIsCorrect(jobs);
     }
 

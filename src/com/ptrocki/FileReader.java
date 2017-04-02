@@ -25,7 +25,7 @@ public class FileReader {
         List<Integer> dueDate = filteredLines.subList(2*numberOfJobsInInstance,3*numberOfJobsInInstance);
         ArrayList<Job> jobs = new ArrayList<>();
         for (int index = 0; index < numberOfJobsInInstance; index++) {
-            jobs.add(new Job(processingTime.get(index),
+            jobs.add(new Job(index,processingTime.get(index),
                                 weights.get(index),
                                 dueDate.get(index)));
         }
