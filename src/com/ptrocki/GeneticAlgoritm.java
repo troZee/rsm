@@ -1,6 +1,9 @@
 package com.ptrocki;
 
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 /*
 [Start] Generate random population of n chromosomes (suitable solutions for the problem)
@@ -61,5 +64,22 @@ public class GeneticAlgoritm {
         bestChromoson.getJobs().forEach( item ->
             System.out.print(item.getNumber() + " -> " )
         );
+        System.out.println("");
+        if (hasDuplicatedJobs()) {
+            System.out.print("List has duplicates");}
+            else {
+            System.out.print("No duplicates");
+        }
+    }
+
+    boolean hasDuplicatedJobs() {
+        Set<Integer> encounteredNumbers = new HashSet<>();
+        for (Job job : bestChromoson.getJobs()) {
+            if (encounteredNumbers.contains(job.getNumber())) {
+                return true;
+            }
+            encounteredNumbers.add(job.getNumber());
+        }
+        return false;
     }
 }
