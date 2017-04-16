@@ -1,5 +1,7 @@
 package com.ptrocki;
 
+import java.util.Objects;
+
 public class Job {
     private Integer processingTime;
     private Integer weight;
@@ -40,4 +42,13 @@ public class Job {
     }
 
     void setTardiness(Integer tardiness) { this.tardiness = tardiness; }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Job)) {
+            return super.equals(obj);
+        }
+        return Objects.equals(number, ((Job) obj).number);
+
+    }
 }

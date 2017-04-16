@@ -26,7 +26,9 @@ public class Main {
             GeneticAlgoritm algoritm = new GeneticAlgoritm(jobs);
             algoritm.compute(100000);
             algoritm.printSolution();
-
+            TabuSearchAlgorithm tabuSearchAlgorithm = new TabuSearchAlgorithm(jobs);
+            tabuSearchAlgorithm.compute(1000,100,10);
+            tabuSearchAlgorithm.printSolution();
         } catch (IOException e) {
             e.printStackTrace();
         }
