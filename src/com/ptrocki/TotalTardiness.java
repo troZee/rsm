@@ -6,10 +6,12 @@ public class TotalTardiness {
 
     private Chromoson chromoson;
     private int solution;
+    private boolean deadlineExceed;
 
     public TotalTardiness(Chromoson chromoson) {
         this.chromoson = chromoson;
         this.solution = 0;
+        this.deadlineExceed = false;
         solve(chromoson.getJobs());
     }
 
@@ -17,6 +19,7 @@ public class TotalTardiness {
         this.solution = 0;
         solve(jobs);
     }
+
     private void solve(List<Job> jobs) {
         for (int i = 0; i < jobs.size(); ++i) {
             solution += jobs.get(i).getWeight() * tardiness(i,jobs);
@@ -33,8 +36,10 @@ public class TotalTardiness {
         for (int i = 0; i <= index; ++i) {
             completionTime += jobs.get(index).getProcessingTime();
         }
+
         return completionTime;
     }
+
 
     public int getSolution() {
         return solution;

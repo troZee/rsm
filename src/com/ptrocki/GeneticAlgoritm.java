@@ -1,5 +1,7 @@
 package com.ptrocki;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,6 +23,7 @@ public class GeneticAlgoritm {
     private List<Job> jobs;
     private int bestTardinessSum = -Integer.MAX_VALUE;
     private Chromoson bestChromoson;
+    private Duration timeExecution;
 
     GeneticAlgoritm(List<Job> jobs) {
         this.jobs = jobs;
@@ -30,7 +33,13 @@ public class GeneticAlgoritm {
         compute(jobs, numberOfIteration);
     }
 
+    public Duration getTimeExecution() {
+        return timeExecution;
+    }
+
     private void compute(List<Job> jobs, int numberOfIteration) {
+        Instant start = Instant.now();
+
         Population population = new Population();
         population.initPopulation(jobs);
         checkIfPopulationHasTheBestOne(population.chromosons);
@@ -44,6 +53,8 @@ public class GeneticAlgoritm {
             population.chromosons.addAll(population.bestChromos);
             population.chromosons.addAll(mutations);
         }
+        Instant end = Instant.now();
+        timeExecution = Duration.between(start, end);
     }
 
     void checkIfPopulationHasTheBestOne(List<Chromoson> chromosons) {
