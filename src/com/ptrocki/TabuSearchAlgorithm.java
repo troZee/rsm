@@ -34,52 +34,38 @@ public class TabuSearchAlgorithm {
 
     private List<Job> jobs;
     private List<Job> bestJobs;
-    private List<List<Job>> tabu;
+
+    private TabuItemManager tabuManager;
     private Duration timeExecution;
 
     public TabuSearchAlgorithm(List<Job> jobs) {
         this.jobs = jobs;
         this.bestJobs = new ArrayList<>();
-        this.tabu = new ArrayList<>();
+        this.tabuManager = new TabuItemManager();
     }
 
     public Duration getTimeExecution() {
         return timeExecution;
     }
 
-    public void compute(int iterations, int numberOfNeneighbors, int tabuSize) {
+    public void compute(int iterations, int tabuSize) {
         Instant start = Instant.now();
+        tabuManager.setTabuSize(tabuSize);
         this.bestJobs = computeBestCandidate(jobs);
         List<Job> bestJobs = this.bestJobs;
         for (int index = 0; index < iterations; index++) {
-            List<List<Job>> neighborhoods = generateNeighborhood(numberOfNeneighbors, jobs);
-            for (List<Job> neighborhood : neighborhoods) {
-                if (!findIn(tabu, neighborhood) && new TotalTardiness(neighborhood).getSolution() < new TotalTardiness(bestJobs).getSolution()) {
-                    bestJobs = neighborhood;
-                }
+            ProhibitedMove prohibitedMove = tabuManager.generatePohibitedMoves(jobs.size());
+            List<Job> neighborhoods = tabuManager.generateNeighborhood(jobs,prohibitedMove);
+            if (!tabuManager.find(prohibitedMove) && new TotalTardiness(neighborhoods).getSolution() < new TotalTardiness(bestJobs).getSolution()) {
+                    bestJobs = neighborhoods;
             }
             if (new TotalTardiness(this.bestJobs).getSolution() < new TotalTardiness(bestJobs).getSolution()) {
                 this.bestJobs = bestJobs;
             }
-            tabu.add(bestJobs);
-            if (tabu.size() > tabuSize) {
-                tabu.remove(0);
-            }
+            tabuManager.add(prohibitedMove);
         }
         Instant end = Instant.now();
         timeExecution = Duration.between(start, end);
-    }
-
-    public boolean findIn(List<List<Job>> tabuList, List<Job> jobsList) {
-
-        for (List<Job> tabu : tabuList) {
-            for (int i = 0; i < jobsList.size(); i++) {
-                if (Objects.equals(tabu.get(i).getNumber(), jobsList.get(i).getNumber())) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     public void printSolution() {
@@ -105,21 +91,6 @@ public class TabuSearchAlgorithm {
             encounteredNumbers.add(job.getNumber());
         }
         return false;
-    }
-
-    private List<List<Job>> generateNeighborhood(int numberOfNeneighbors, List<Job> jobs) {
-        List<List<Job>> temp = new ArrayList<>();
-        for (int index = 0; index < numberOfNeneighbors; index++) {
-            temp.add(swap(jobs));
-        }
-        return temp;
-    }
-
-    private List<Job> swap(List<Job> jobs) {
-        int idx1 = new Random().nextInt(jobs.size());
-        int idx2 = new Random().nextInt(jobs.size());
-        Collections.swap(jobs, idx1, idx2);
-        return jobs;
     }
 
     private List<Job> computeBestCandidate(List<Job> jobs) {

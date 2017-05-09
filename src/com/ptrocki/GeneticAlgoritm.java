@@ -76,10 +76,11 @@ public class GeneticAlgoritm {
         );
         System.out.println("");
         if (hasDuplicatedJobs()) {
-            System.out.print("List has duplicates");}
+            System.out.println("List has duplicates");}
             else {
-            System.out.print("No duplicates");
+            System.out.println("No duplicates");
         }
+        System.out.println("Number of tasks"+String.valueOf(bestChromoson.getJobs().size()));
     }
 
     boolean hasDuplicatedJobs() {
