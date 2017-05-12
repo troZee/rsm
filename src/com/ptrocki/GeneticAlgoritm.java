@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 /*
@@ -20,6 +21,7 @@ import java.util.Set;
  */
 public class GeneticAlgoritm {
 
+    private final Random generator;
     private List<Job> jobs;
     private int bestTardinessSum = -Integer.MAX_VALUE;
     private Chromoson bestChromoson;
@@ -27,17 +29,18 @@ public class GeneticAlgoritm {
 
     GeneticAlgoritm(List<Job> jobs) {
         this.jobs = jobs;
+        generator = new Random();
     }
 
-    void compute(int numberOfIteration) {
-        compute(jobs, numberOfIteration);
+    void compute(int numberOfIteration,int probabilityForCrossOver, int probabilityForMutation) {
+        compute(jobs, numberOfIteration,probabilityForCrossOver,probabilityForMutation);
     }
 
     public Duration getTimeExecution() {
         return timeExecution;
     }
 
-    private void compute(List<Job> jobs, int numberOfIteration) {
+    private void compute(List<Job> jobs, int numberOfIteration, int probabilityForCrossOver, int probabilityForMutation) {
         Instant start = Instant.now();
 
         Population population = new Population();
@@ -45,10 +48,16 @@ public class GeneticAlgoritm {
         checkIfPopulationHasTheBestOne(population.chromosons);
         for (int i = 0; i < numberOfIteration; i++) {
             population.findBestParentsInPopulation();
-            List<Chromoson> crossOvers = population.crossOver();
-            checkIfPopulationHasTheBestOne(crossOvers);
-            List<Chromoson> mutations = population.mutation(crossOvers);
-            checkIfPopulationHasTheBestOne(mutations);
+            List<Chromoson> crossOvers = population.bestChromos;
+            if(fillfulled(probabilityForCrossOver)) {
+                crossOvers = population.crossOver();
+                checkIfPopulationHasTheBestOne(crossOvers);
+            }
+            List<Chromoson> mutations = crossOvers;
+            if(fillfulled(probabilityForMutation)) {
+                mutations = population.mutation(crossOvers);
+                checkIfPopulationHasTheBestOne(mutations);
+            }
             population.chromosons.clear();
             population.chromosons.addAll(population.bestChromos);
             population.chromosons.addAll(mutations);
@@ -68,6 +77,9 @@ public class GeneticAlgoritm {
         }
     }
 
+    boolean fillfulled(int probability) {
+        return probability <= generator.nextInt(100);
+    }
     void printSolution() {
         System.out.println("Best tardiness sum is " + bestTardinessSum);
         System.out.println("Tasks order :");

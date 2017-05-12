@@ -30,7 +30,7 @@ public class Main {
             List<Job> jobs = instances.get(instanceTestNumer).getJobs();
             System.out.print("Genetic Algo");
             GeneticAlgoritm algoritm = new GeneticAlgoritm(jobs);
-            algoritm.compute(100000);
+            algoritm.compute(100000,50,50);
             algoritm.printSolution();
             System.out.println("");
             System.out.println("Time execution: " + convert(algoritm.getTimeExecution().toNanos()));
