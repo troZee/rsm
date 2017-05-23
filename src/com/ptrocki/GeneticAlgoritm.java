@@ -78,7 +78,7 @@ public class GeneticAlgoritm {
     }
 
     boolean fillfulled(int probability) {
-        return probability <= generator.nextInt(100);
+        return probability > generator.nextInt(100);
     }
     void printSolution() {
         System.out.println("Best tardiness sum is " + bestTardinessSum);

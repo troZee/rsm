@@ -49,7 +49,7 @@ public class TabuItemManager {
         Random random = new Random();
         int idx1 = random.nextInt(size-1);
         int idx2 = random.nextInt(size-1);
-        while (idx1 != idx2) {
+        while (idx1 == idx2) {
             idx1 = random.nextInt(size-1);
             idx2 = random.nextInt(size-1);
         }
@@ -58,6 +58,7 @@ public class TabuItemManager {
             idx1 = idx2;
             idx2 = temp;
         }
+        //System.out.println("x " + String.valueOf(idx1) + " " + "x " + String.valueOf(idx2));
         return new ProhibitedMove(idx1,idx2);
     }
 }

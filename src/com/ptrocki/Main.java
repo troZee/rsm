@@ -13,8 +13,8 @@ public class Main {
     private List<Instance> instances;
 
     public static void main(String[] args) {
-        //new Main().start();
-        new Main().test();
+        new Main().start();
+        //new Main().test();
     }
 
     public void start() {

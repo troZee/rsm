@@ -55,11 +55,13 @@ public class TabuSearchAlgorithm {
         List<Job> bestJobs = this.bestJobs;
         for (int index = 0; index < iterations; index++) {
             ProhibitedMove prohibitedMove = tabuManager.generatePohibitedMoves(jobs.size());
-            List<Job> neighborhoods = tabuManager.generateNeighborhood(jobs,prohibitedMove);
+            List<Job> neighborhoods = new ArrayList<>(tabuManager.generateNeighborhood(jobs,prohibitedMove));
+
             if (!tabuManager.find(prohibitedMove) && new TotalTardiness(neighborhoods).getSolution() < new TotalTardiness(bestJobs).getSolution()) {
                     bestJobs = neighborhoods;
             }
-            if (new TotalTardiness(this.bestJobs).getSolution() < new TotalTardiness(bestJobs).getSolution()) {
+            
+            if (new TotalTardiness(this.bestJobs).getSolution() > new TotalTardiness(bestJobs).getSolution()) {
                 this.bestJobs = bestJobs;
             }
             tabuManager.add(prohibitedMove);
